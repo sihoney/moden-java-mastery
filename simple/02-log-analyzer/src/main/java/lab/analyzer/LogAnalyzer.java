@@ -51,5 +51,9 @@ public class LogAnalyzer {
                 .map(Map.Entry::getKey);
     }
 
+    public static ResponseStats responseStats(List<LogEntry> logs) {
+        return logs.stream().collect(new ResponseStatsCollector());
+    }
+
 
 }

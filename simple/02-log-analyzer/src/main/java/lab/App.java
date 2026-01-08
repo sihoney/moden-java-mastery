@@ -21,5 +21,8 @@ public class App {
         System.out.println("By Level: " + LogAnalyzer.countByLevel(logs));
         System.out.println("Top IP: " + LogAnalyzer.topIp(logs).orElse("N/A"));
 
+        var stats = LogAnalyzer.responseStats(logs);
+        System.out.println("Avg(ResponseStats): " + stats.average());
+
     }
 }
