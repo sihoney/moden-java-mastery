@@ -1,0 +1,11 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'app.Main'
+}
+
+dependencies {
+    implementation 'info.picocli:picocli:4.7.5'
+}
