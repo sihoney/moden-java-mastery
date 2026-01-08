@@ -16,13 +16,17 @@ public class App {
 
         var logs = LogLoader.load(Path.of("logs/app.log")).toList();
 
-        System.out.println("Errors: " + LogAnalyzer.countErrors(logs));
-        System.out.println("Avg Response: " + LogAnalyzer.averageResponseTime(logs));
-        System.out.println("By Level: " + LogAnalyzer.countByLevel(logs));
-        System.out.println("Top IP: " + LogAnalyzer.topIp(logs).orElse("N/A"));
+//        System.out.println("Errors: " + LogAnalyzer.countErrors(logs));
+//        System.out.println("Avg Response: " + LogAnalyzer.averageResponseTime(logs));
+//        System.out.println("By Level: " + LogAnalyzer.countByLevel(logs));
+//        System.out.println("Top IP: " + LogAnalyzer.topIp(logs).orElse("N/A"));
+//
+//        var stats = LogAnalyzer.responseStats(logs);
+//        System.out.println("Avg(ResponseStats): " + stats.average());
 
-        var stats = LogAnalyzer.responseStats(logs);
-        System.out.println("Avg(ResponseStats): " + stats.average());
+        var result = LogAnalyzer.analyze(logs);
+
+        System.out.println(result);
 
     }
 }

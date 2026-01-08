@@ -55,5 +55,38 @@ public class LogAnalyzer {
         return logs.stream().collect(new ResponseStatsCollector());
     }
 
+//    lab4 - 불변성 데이터 모델
+//    - 데이터 처리 파이프라인에서 side effect(부작용)를 완전히 제거
+    public static AnalysisResult analyze(List<LogEntry> logs) {
+
+        var errorCount = logs.stream()
+                .filter(l -> l.level().equals("ERROR"))
+                .count();
+
+        var stats = responseStats(logs);
+
+        var byLevel = logs.stream()
+                .collect(Collectors.groupingBy(
+                        LogEntry::level,
+                        Collectors.counting()
+                ));
+
+        var topIp = logs.stream()
+                .collect(Collectors.groupingBy(
+                        LogEntry::ip,
+                        Collectors.counting()
+                ))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("N/A");
+
+        return new AnalysisResult(
+                errorCount,
+                stats.average(),
+                byLevel,
+                topIp
+        );
+    }
 
 }
