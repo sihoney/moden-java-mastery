@@ -27,6 +27,8 @@ public class ConcurrencyTest {
         pool.awaitTermination(10, TimeUnit.SECONDS);
 
         service.handle(new ListAll());
+
+        service.shutdown(); // ⭐ 반드시 호출
     }
 }
 

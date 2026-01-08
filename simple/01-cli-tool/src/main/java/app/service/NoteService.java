@@ -35,4 +35,9 @@ public class NoteService {
             case ListAll l -> repo.findAll().forEach(System.out::println);
         }
     }
+
+    public void shutdown() {
+        scheduler.shutdown();
+        writer.shutdown();
+    }
 }

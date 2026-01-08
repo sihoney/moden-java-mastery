@@ -8,13 +8,15 @@ import java.util.concurrent.TimeUnit;
 
 public class ExpiryScheduler {
 
-    private final ScheduledExecutorService scheduler =
-            Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public ExpiryScheduler(NoteRepository repo) {
+//        sheduleAtFixedRate: 일정한 간격으로 작업을 반복하는 간단한 타이버 역할
         scheduler.scheduleAtFixedRate(
                 repo::evictExpired,
-                5, 5, TimeUnit.SECONDS
+                5,
+                5,
+                TimeUnit.SECONDS
         );
     }
 

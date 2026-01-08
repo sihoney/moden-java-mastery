@@ -12,17 +12,14 @@ import java.util.concurrent.TimeUnit;
 
 public class FileWriterWorker {
 
-//    ExecutorService: thread pool 관리자
 //    newSingleThreadExecutor: "작업 큐(내부 BlockingQueue) + worker thread 1개"로 구성
     private final ExecutorService writer = Executors.newSingleThreadExecutor();
     private final FileStore store;
 
     public FileWriterWorker(FileStore store) {
         this.store = store;
-//        Executor thread는 non-daemon
-//        non-daemon thread가 하나라도 살아 있으면 JVM은 종료되지 않는다.
-//        shutdown()으로 생명주기 관리!
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+//        non-daemon thread가 하나라도 살아 있으면 JVM은 종료되지 않는다.
     }
 
     public void persistAsync(Collection<Note> notes) {
@@ -31,9 +28,12 @@ public class FileWriterWorker {
     }
 
     public void shutdown() {
+//        shutdown(): 부드러운 종류, 이미 진행 중인 작업은 끝까지 수행 & 새로운 작업만 막음
         writer.shutdown();
         try {
+//            awaitTermination: 실행 중인 작업이 종료될 때까지 (최대 3초) block
             if (!writer.awaitTermination(3, TimeUnit.SECONDS)) {
+//                shutdownNow(): 즉시 중단 시도, 현재 진행 중인 작업들에게 인터럽트를 걸어서 즉시 중단을 시도
                 writer.shutdownNow();
             }
         } catch (InterruptedException e) {

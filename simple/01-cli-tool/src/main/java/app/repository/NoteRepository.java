@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 // 상태 관리 전담
-
 public class NoteRepository {
 
     private final ConcurrentHashMap<Long, Note> store = new ConcurrentHashMap<>();

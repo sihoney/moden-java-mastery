@@ -7,8 +7,7 @@ import picocli.CommandLine;
 
 public class App {
 
-    private static final NoteService service =
-            new NoteService(new FileStore());
+    private static final NoteService service = new NoteService(new FileStore());
 
     public static NoteService service() {
         return service;
