@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // LogAnalyzer -- 함수형 파이프라인
 // 목적: 데이터를 '선언적으로' 처리
@@ -46,11 +47,12 @@ public class LogAnalyzer {
                         LogEntry::ip,
                         Collectors.counting()
                 ))
-                .entrySet().stream()
+                .entrySet().stream() // Map은 직접 max를 못 구하니까 Entry Set(집합)으로 바꿔서 다시 스트림화
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey);
     }
 
+//    lab3
     public static ResponseStats responseStats(List<LogEntry> logs) {
         return logs.stream().collect(new ResponseStatsCollector());
     }
@@ -87,6 +89,24 @@ public class LogAnalyzer {
                 byLevel,
                 topIp
         );
+    }
+
+//    lab05
+//    public static AnalysisResult analyzeStream(Stream<LogEntry> stream) {
+//
+//        var errorCount = stream.filter(l -> l.level().equals("ERROR")).count();
+//
+//        return new AnalysisResult(errorCount, 0, Map.of(), "N/A");
+//    }
+
+//    스트리밍 방식 분석 (상태을 누적)
+    public static AnalysisResult analyzeStream(Stream<LogEntry> stream) {
+
+        var state = new AnalyzerState();
+
+        stream.forEach(state::accept);
+
+        return state.finish();
     }
 
 }
